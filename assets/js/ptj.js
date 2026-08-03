@@ -248,20 +248,21 @@
     submitButton?.classList.add("is-loading");
     formStatus.textContent = "";
 
-    setTimeout(() => {
-      submitButton?.classList.remove("is-loading");
-      formStatus.textContent = "Message prepared successfully. Opening email client...";
-      formStatus.className = "form-status success";
+    const rawName = qs("#name")?.value.trim() || "";
+    const rawEmail = qs("#email")?.value.trim() || "";
+    const rawMessage = qs("#message")?.value.trim() || "";
 
-      const name = encodeURIComponent(qs("#name")?.value.trim() || "");
-      const email = encodeURIComponent(qs("#email")?.value.trim() || "");
-      const message = encodeURIComponent(qs("#message")?.value.trim() || "");
-      const subject = `Portfolio Contact from ${name}`;
-      const body = `Name: ${name}%0AEmail: ${email}%0A%0AMessage:%0A${message}`;
-      window.location.href = `mailto:ankitmakkar2003@gmail.com?subject=${subject}&body=${body}`;
+    const subject = encodeURIComponent(`Portfolio Contact from ${rawName}`);
+    const body = encodeURIComponent(`Name: ${rawName}\nEmail: ${rawEmail}\n\nMessage:\n${rawMessage}`);
+    const mailtoUrl = `mailto:ankitmakkar2003@gmail.com?subject=${subject}&body=${body}`;
 
-      contactForm.reset();
-    }, 850);
+    submitButton?.classList.remove("is-loading");
+    formStatus.textContent = "Message prepared successfully. Opening email client...";
+    formStatus.className = "form-status success";
+
+    // Open mail client immediately to preserve browser user-gesture context.
+    window.location.href = mailtoUrl;
+    contactForm.reset();
   });
 
   qsa("input, textarea", contactForm || document).forEach((field) => {
