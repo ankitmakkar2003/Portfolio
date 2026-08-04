@@ -81,7 +81,7 @@
   sections.forEach((section) => sectionObserver.observe(section));
 
   const typingEl = qs("#typing-role");
-  const roles = ["Software Developer", "MCA Graduate"];
+  const roles = ["MCA Graduate","Software Developer"];
   let roleIndex = 0;
   let charIndex = 0;
   let removing = false;
